@@ -184,6 +184,7 @@ static int fork_workers(fd_array_t *ipc_set, int forks)
 {
 	/* Fork subprocesses if requested */
 	while (--forks > 0) {
+		printf("%s\n", "forking");
 		int sv[2] = {-1, -1};
 		if (socketpair(AF_LOCAL, SOCK_STREAM, 0, sv) < 0) {
 			perror("[system] socketpair");
@@ -254,6 +255,7 @@ static int run_worker(uv_loop_t *loop, struct engine *engine, fd_array_t *ipc_se
 	}
 
 	/* Control sockets or TTY */
+	printf("%s\n", "run worker");
 	uv_pipe_t pipe;
 	uv_pipe_init(loop, &pipe, 0);
 	pipe.data = args;
@@ -530,6 +532,8 @@ int main(int argc, char **argv)
 	int ret = parse_args(argc, argv, the_args);
 	if (ret >= 0) goto cleanup_args;
 
+	// Bind sockets
+
 	ret = bind_sockets(&the_args->addrs, false, &the_args->fds);
 	if (ret) goto cleanup_args;
 	ret = bind_sockets(&the_args->addrs_tls, true, &the_args->fds);
@@ -595,10 +599,10 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	kr_crypto_init();
+	kr_crypto_init(); // tls init
 
 	/* Create a server engine. */
-	knot_mm_t pool = {
+	knot_mm_t pool = {						// create a pool for jobs
 		.ctx = mp_new (4096),
 		.alloc = (knot_mm_alloc_t) mp_alloc
 	};

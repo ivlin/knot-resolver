@@ -229,6 +229,8 @@ struct kr_request {
 	unsigned int uid; /** for logging purposes only */
 	unsigned int count_no_nsaddr;
 	unsigned int count_fail_row;
+
+	int saved_ttl;
 };
 
 /** Initializer for an array of *_selected. */

@@ -7,7 +7,7 @@
  *
  * The packet is stashed in entry_h::data as uint16_t length + full packet wire format.
  */
-
+#include "stdio.h"
 #include "lib/utils.h"
 #include "lib/layer/iterate.h" /* kr_response_classify */
 #include "lib/cache/impl.h"
@@ -121,6 +121,10 @@ void stash_pkt(const knot_pkt_t *pkt, const struct kr_query *qry,
 	struct entry_h *eh = val_new_entry.data;
 	memset(eh, 0, offsetof(struct entry_h, data));
 	eh->time = qry->timestamp.tv_sec;
+	if (req->saved_ttl >= 0) {
+		VERBOSE_MSG(qry, "[CUSTOM] entry_pkt.c: stash_pkt TTL override%d\n", qry->request->saved_ttl);
+		eh->ttl = qry->request->saved_ttl;
+	}
 	eh->ttl  = MAX(MIN(packet_ttl(pkt, is_negative), cache->ttl_max), cache->ttl_min);
 	eh->rank = rank;
 	eh->is_packet = true;

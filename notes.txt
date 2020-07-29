@@ -1,0 +1,173 @@
+Run with docker -Pit ivlin/knot
+
+https://knot-resolver.readthedocs.io/en/stable/build.html
+
+meson build_dir --prefix=/tmp/kr --default-library=static
+ninja -C build_dir
+ninja install -C build_dir
+
+You modify the cache, but it sends the original packet so the initial TTL is incorrect.
+
+lib/cache/entry_pkt.c
+lib/defines.h
+
+If you decide to run binary /usr/sbin/kresd manually (instead of using systemd) do not forget to specify -c option with path to configuration file, otherwise kresd will read file named config from its current working directory.
+
+https://readthedocs.org/projects/knot-resolver/downloads/pdf/stable/
+https://knot-resolver.readthedocs.io/en/stable/modules-policy.html
+
+Stages
+https://stackoverflow.com/questions/36847555/knot-resolver-how-to-observe-and-modify-a-resolved-answer-at-the-right-time
+
+Resolve.c is the control point for all stages of the resolution process
+
+begin -> policy -> process -> finish
+
+
+
+ninja: Entering directory `build_dir'
+[0/1] Installing files.
+Installing subdir /home/minivan/Documents/measure_dns/knot-resolver/modules/experimental_dot_auth/static to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installation failed due to insufficient permissions.
+Attempting to use polkit to gain elevated privileges...
+
+Installing subdir /home/minivan/Documents/measure_dns/knot-resolver/modules/experimental_dot_auth/static to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing subdir /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/dygraph.min.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/selectize.bootstrap3.css to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/bootstrap.min.css to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/jquery.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/epoch.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/epoch.css to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/main.tpl to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/datamaps.world.min.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/kresd.css to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/bootstrap-theme.min.css to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/bootstrap.min.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/favicon.ico to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/selectize.min.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/topojson.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/kresd.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/glyphicons-halflings-regular.woff2 to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/static/d3.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/http
+
+
+Installing lib/libkres.so.9 to /lib/x86_64-linux-gnu
+Installing daemon/kresd to /sbin
+Installing modules/bogus_log/bogus_log.so to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing modules/edns_keepalive/edns_keepalive.so to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing modules/hints/hints.so to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing modules/http/debug_opensslkeylog.so to /lib/x86_64-linux-gnu/knot-resolver
+Installing modules/nsid/nsid.so to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing modules/policy/ahocorasick.so to /lib/x86_64-linux-gnu/knot-resolver
+Installing modules/refuse_nord/refuse_nord.so to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing modules/stats/stats.so to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing utils/client/kresc to /sbin
+Installing utils/cache_gc/kres-cache-gc to /sbin
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/cache/api.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/cache/cdb_api.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/cache/cdb_lmdb.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/cache/impl.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/defines.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/dnssec.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/dnssec/nsec.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/dnssec/nsec3.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/dnssec/signature.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/dnssec/ta.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/generic/array.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/generic/lru.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/generic/map.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/generic/pack.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/generic/queue.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/generic/trie.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/layer.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/layer/iterate.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/module.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/nsrep.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/resolve.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/rplan.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/utils.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/lib/zonecut.h to /include/libkres
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/doc/kresd.8 to /share/man/man8
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/systemd/kresd.systemd.7 to /share/man/man7
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/meson-private/libkres.pc to /lib/x86_64-linux-gnu/pkgconfig
+Installing /home/minivan/Documents/measure_dns/knot-resolver/daemon/lua/postconfig.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/daemon/lua/kres.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/daemon/lua/kres-gen.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/daemon/lua/sandbox.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/daemon/lua/trust_anchors.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/daemon/lua/zonefile.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/daemon/lua/kluautil.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/daemon/lua/distro-preconfig.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/daf/daf.js to /lib/x86_64-linux-gnu/knot-resolver/kres_modules/daf
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/detect_time_jump/detect_time_jump.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/detect_time_skew/detect_time_skew.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/dns64/dns64.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/etcd/etcd.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/graphite/graphite.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/predict/predict.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/prefill/prefill.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/priming/priming.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/rebinding/rebinding.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/renumber/renumber.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/serve_stale/serve_stale.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/ta_sentinel/ta_sentinel.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/ta_signal_query/ta_signal_query.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/ta_update/ta_update.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/watchdog/watchdog.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/workarounds/workarounds.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/daf/daf.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/experimental_dot_auth/experimental_dot_auth.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/modules/http/http.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/http_doh.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/http_trace.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/http_tls_cert.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/http/prometheus.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/policy/policy.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/modules/view/view.lua to /lib/x86_64-linux-gnu/knot-resolver/kres_modules
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/utils/upgrade/upgrade-4-to-5.lua to /lib/x86_64-linux-gnu/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/root.keys to /etc/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.cluster to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.docker to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.isp to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.internal to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.privacy to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.personal to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.splitview to /share/doc/knot-resolver/examples
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/config/config.personal to /etc/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/root.hints to /etc/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/etc/icann-ca.pem to /etc/knot-resolver
+
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/systemd/kresd@.service to /lib/systemd/system
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/systemd/kres-cache-gc.service to /lib/systemd/system
+Installing /home/minivan/Documents/measure_dns/knot-resolver/systemd/kresd.target to /lib/systemd/system
+Installing /home/minivan/Documents/measure_dns/knot-resolver/build_dir/systemd/knot-resolver.conf to /lib/tmpfiles.d
+
+Installing /home/minivan/Documents/measure_dns/knot-resolver/AUTHORS to /share/doc/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/COPYING to /share/doc/knot-resolver
+Installing /home/minivan/Documents/measure_dns/knot-resolver/NEWS to /share/doc/knot-resolver
+
+
+
+
+-- Custom
+
+local function fake_TTL(ttl)
+	return function(state, req)
+	    req.saved_ttl = ttl
+		return state
+	end
+end
+
+log('INFO: Test log statement')
+
+-- cache.min_ttl(666)
+policy.add(policy.suffix(fake_TTL(66), {todname('youtube.com')}))
+
+
+Remove user from conf file. Make the working directory if it doesn't exist.
+
+
+To connect to console
+sudo nc -U /var/lib/knot-resolver/control/5012
+or workinddirectory/control/PPID

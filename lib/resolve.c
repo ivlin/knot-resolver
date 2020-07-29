@@ -728,6 +728,7 @@ int kr_resolve_begin(struct kr_request *request, struct kr_context *ctx, knot_pk
 	request->rank = KR_RANK_INITIAL;
 	request->trace_log = NULL;
 	request->trace_finish = NULL;
+	request->saved_ttl = -1;
 
 	/* Expect first query */
 	kr_rplan_init(&request->rplan, request, &request->pool);

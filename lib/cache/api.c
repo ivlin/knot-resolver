@@ -590,6 +590,10 @@ static ssize_t stash_rrset(struct kr_cache *cache, const struct kr_query *qry,
 	memset(eh, 0, offsetof(struct entry_h, data));
 	eh->time = timestamp;
 	eh->ttl  = MAX(MIN(ttl, cache->ttl_max), cache->ttl_min);
+	if (qry->request->saved_ttl >= 0) {
+		VERBOSE_MSG(qry, "[CUSTOM] api.c: stash_rreset TTL override %d\n", qry->request->saved_ttl);
+		eh->ttl = qry->request->saved_ttl;
+	}
 	eh->rank = rank;
 	if (rdataset_dematerialize(&rr->rrs, eh->data)
 	    || rdataset_dematerialize(rds_sigs, eh->data + rr_ssize)) {
