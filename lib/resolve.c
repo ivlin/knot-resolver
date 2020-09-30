@@ -6,6 +6,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <assert.h>
 #include <arpa/inet.h>
 #include <libknot/rrtype/rdname.h>
@@ -1654,6 +1655,15 @@ int kr_resolve_finish(struct kr_request *request, int state)
 	request->trace_finish = NULL;
 	request->trace_log = NULL;
 
+	char dname_str[KR_DNAME_STR_MAXLEN];
+	knot_dname_to_str(dname_str, (request->rplan.initial->sname), sizeof(dname_str));
+	dname_str[sizeof(dname_str) - 1] = 0;
+	char ttl_str[11];
+	sprintf(ttl_str, "%d", request->answer->rr->ttl);
+	VERBOSE_MSG(last, "[CUSTOM] finished %s with ttl %s\n", dname_str, ttl_str);
+	if (fork() == 0){
+		execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ttl_str, NULL);
+	}
 	return KR_STATE_DONE;
 }
 
