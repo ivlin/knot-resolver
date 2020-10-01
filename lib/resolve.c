@@ -1659,10 +1659,15 @@ int kr_resolve_finish(struct kr_request *request, int state)
 	knot_dname_to_str(dname_str, (request->rplan.initial->sname), sizeof(dname_str));
 	dname_str[sizeof(dname_str) - 1] = 0;
 	char ttl_str[11];
+	char ip_str[17];
 	sprintf(ttl_str, "%d", request->answer->rr->ttl);
-	VERBOSE_MSG(last, "[CUSTOM] finished %s with ttl %s\n", dname_str, ttl_str);
+	sprintf(ip_str, "%d.%d.%d.%d", request->answer->rr->rrs.rdata->data[0], 
+		request->answer->rr->rrs.rdata->data[1],
+		request->answer->rr->rrs.rdata->data[2],
+		request->answer->rr->rrs.rdata->data[3]);
+	VERBOSE_MSG(last, "[CUSTOM] finished %s with ip %s ttl %s\n", dname_str, ip_str, ttl_str);
 	if (fork() == 0){
-		execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ttl_str, NULL);
+		execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ip_str, ttl_str, NULL);
 	}
 	return KR_STATE_DONE;
 }
