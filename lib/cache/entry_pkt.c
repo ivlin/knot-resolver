@@ -121,6 +121,21 @@ void stash_pkt(const knot_pkt_t *pkt, const struct kr_query *qry,
 	struct entry_h *eh = val_new_entry.data;
 	memset(eh, 0, offsetof(struct entry_h, data));
 	eh->time = qry->timestamp.tv_sec;
+
+	//
+	// char dname_str[KR_DNAME_STR_MAXLEN];
+	// knot_dname_to_str(dname_str, (req->rplan.initial->sname), sizeof(dname_str));
+	// dname_str[sizeof(dname_str) - 1] = 0;
+	// char ttl_str[11];
+	// char ip_str[17];
+	// sprintf(ttl_str, "%d", req->answer->rr->ttl);
+	// sprintf(ip_str, "%d.%d.%d.%d", req->answer->rr->rrs.rdata->data[0], 
+	// 	req->answer->rr->rrs.rdata->data[1],
+	// 	req->answer->rr->rrs.rdata->data[2],
+	// 	req->answer->rr->rrs.rdata->data[3]);
+	// VERBOSE_MSG(qry, "[CUSTOM] finished %s with ip %s ttl %s\n", dname_str, ip_str, ttl_str);
+	//
+	
 	if (req->saved_ttl >= 0) {
 		VERBOSE_MSG(qry, "[CUSTOM] entry_pkt.c: stash_pkt TTL override%d\n", qry->request->saved_ttl);
 		eh->ttl = qry->request->saved_ttl;

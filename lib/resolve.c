@@ -1665,10 +1665,34 @@ int kr_resolve_finish(struct kr_request *request, int state)
 		request->answer->rr->rrs.rdata->data[1],
 		request->answer->rr->rrs.rdata->data[2],
 		request->answer->rr->rrs.rdata->data[3]);
-	VERBOSE_MSG(last, "[CUSTOM] finished %s with ip %s ttl %s\n", dname_str, ip_str, ttl_str);
-	if (fork() == 0){
-		execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ip_str, ttl_str, NULL);
+
+	if (request->answer->rr->type == 5) { // handle cname
+		VERBOSE_MSG(last, "[CUSTOM] finished %s with ip %s ttl %s type %d (CNAME)\n", dname_str, ip_str, ttl_str, request->answer->rr->type);
+		for (int i = 1; i < request->answer->rrset_count - 1; i++){
+			if (request->answer->rr[i].type == 1) {
+				sprintf(ttl_str, "%d", request->answer->rr[i].ttl);
+				sprintf(ip_str, "%d.%d.%d.%d", request->answer->rr[i].rrs.rdata->data[0], 
+					request->answer->rr[i].rrs.rdata->data[1],
+					request->answer->rr[i].rrs.rdata->data[2],
+					request->answer->rr[i].rrs.rdata->data[3]);
+				VERBOSE_MSG(last, "[CUSTOM] finished %s with ip %s ttl %s type %d (A)\n", dname_str, ip_str, ttl_str, request->answer->rr[i].type);
+				if (fork() == 0){
+					execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ip_str, ttl_str, NULL);
+				}
+				break;
+			}
+		}
+	} else if (request->answer->rr->type == 1) {
+		VERBOSE_MSG(last, "[CUSTOM] finished %s with ip %s ttl %s type %d (A)\n", dname_str, ip_str, ttl_str, request->answer->rr->type);
+		if (fork() == 0){
+			execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ip_str, ttl_str, NULL);
+		}
+	} else {
+		VERBOSE_MSG(last, "[CUSTOM] finished %s with ip %s ttl %s type %d (OTHER)\n", dname_str, ip_str, ttl_str, request->answer->rr->type);
 	}
+	// if (fork() == 0){
+	// 	execl("/usr/bin/python", "/usr/bin/python", "runner.py", dname_str, ip_str, ttl_str, NULL);
+	// }
 	return KR_STATE_DONE;
 }
 

@@ -590,6 +590,20 @@ static ssize_t stash_rrset(struct kr_cache *cache, const struct kr_query *qry,
 	memset(eh, 0, offsetof(struct entry_h, data));
 	eh->time = timestamp;
 	eh->ttl  = MAX(MIN(ttl, cache->ttl_max), cache->ttl_min);
+	//
+	// char dname_str[KR_DNAME_STR_MAXLEN];
+	// knot_dname_to_str(dname_str, (qry->request->rplan.initial->sname), sizeof(dname_str));
+	// dname_str[sizeof(dname_str) - 1] = 0;
+	// char ttl_str[11];
+	// char ip_str[17];
+	// sprintf(ttl_str, "%d", rr->ttl);
+	// sprintf(ip_str, "%d.%d.%d.%d", 
+	// 	rr->rrs.rdata->data[0], 
+	// 	rr->rrs.rdata->data[1],
+	// 	rr->rrs.rdata->data[2],
+	// 	rr->rrs.rdata->data[3]);
+	// VERBOSE_MSG(qry, "[CUSTOM] finished %s with ip %s ttl %s\n", dname_str, ip_str, ttl_str);
+	//
 	if (qry->request->saved_ttl >= 0) {
 		VERBOSE_MSG(qry, "[CUSTOM] api.c: stash_rreset TTL override %d\n", qry->request->saved_ttl);
 		eh->ttl = qry->request->saved_ttl;
